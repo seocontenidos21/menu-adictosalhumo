@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin — Adictos al Humo</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body class="admin-page">
+
+  <div class="admin-card">
+
+    <!-- ── Logo ─────────────────────────────────────── -->
+    <div class="admin-logo">ADICTOS <span>AL</span> HUMO</div>
+    <div class="admin-subtitle">PANEL DE ADMINISTRACIÓN</div>
+
+    <!-- ── Login Form ────────────────────────────────── -->
+    <div class="admin-login" id="admin-login">
+      <form id="login-form" autocomplete="off" novalidate>
+        <label class="admin-label" for="password-input">Contraseña</label>
+        <input
+          class="admin-input"
+          id="password-input"
+          type="password"
+          placeholder="••••••••"
+          autocomplete="current-password"
+          required
+        />
+        <button class="admin-btn" id="login-btn" type="submit">ACCEDER</button>
+      </form>
+      <p class="admin-msg" id="login-msg"></p>
+    </div>
+
+    <!-- ── Admin Panel ────────────────────────────────── -->
+    <div class="admin-panel" id="admin-panel">
+
+      <div class="admin-rate-current" id="current-rate">
+        Cargando tasa actual...
+      </div>
+
+      <hr class="admin-divider" />
+
+      <form id="rate-form" novalidate>
+        <label class="admin-label" for="rate-input">Nueva tasa (Bs. por $1)</label>
+        <input
+          class="admin-input"
+          id="rate-input"
+          type="number"
+          min="0.01"
+          step="0.01"
+          placeholder="Ej: 36.50"
+          required
+        />
+        <button class="admin-btn" id="update-btn" type="submit">GUARDAR TASA</button>
+      </form>
+      <p class="admin-msg" id="update-msg"></p>
+    </div>
+
+    <a class="admin-back" href="/">← Volver al menú</a>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
