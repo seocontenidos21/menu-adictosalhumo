@@ -3,17 +3,17 @@ let currentRate = null;
 let rateUpdatedAt = null;
 let isBs = false;
 
-/* ─── Supabase REST fetch ───────────────────────────────── */
+/* Modal state */
+let modalItem = null;
+let modalVariant = null;
+let modalQty = 1;
+
+/* ─── Supabase REST ─────────────────────────────────────── */
 async function fetchExchangeRate() {
   try {
     const res = await fetch(
       `${SUPABASE_URL}/rest/v1/exchange_rate?select=tasa,updated_at&id=eq.1`,
-      {
-        headers: {
-          apikey: SUPABASE_ANON_KEY,
-          Authorization: `Bearer ${SUPABASE_ANON_KEY}`
-        }
-      }
+      { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
     );
     const data = await res.json();
     if (data && data.length > 0) {
@@ -34,10 +34,26 @@ function priceHTML(price) {
   return `<span class="sym">$</span>${price}`;
 }
 
-/* ─── Render helpers ────────────────────────────────────── */
+function priceText(price) {
+  if (isBs && currentRate) {
+    return `Bs. ${Math.round(price * currentRate).toLocaleString('es-VE')}`;
+  }
+  return `$${price}`;
+}
+
+/* ─── Placeholder image ─────────────────────────────────── */
+const DISH_IMG = 'img/dish-placeholder.svg';
+
+function dishImg(cls = '') {
+  return `<img src="${DISH_IMG}" alt="Platillo" class="${cls}" loading="lazy" />`;
+}
+
+/* ─── Menu render ───────────────────────────────────────── */
+
 function renderSingleItem(item) {
+  const clickable = (item.price !== undefined) ? `data-item-name="${item.name}"` : '';
   return `
-    <div class="item-card">
+    <div class="item-card" ${clickable}>
       <div class="item-header">
         <div class="item-name">${item.name}</div>
         <div class="item-price">${priceHTML(item.price)}</div>
@@ -54,7 +70,7 @@ function renderVariantItem(item) {
     </div>`).join('');
 
   return `
-    <div class="item-card">
+    <div class="item-card" data-item-name="${item.name}">
       <div class="item-name">${item.name}</div>
       ${item.description ? `<div class="item-desc">${item.description}</div>` : ''}
       <div class="item-variants">${variants}</div>
@@ -63,7 +79,7 @@ function renderVariantItem(item) {
 
 function renderGridItems(items) {
   return `<div class="acomp-grid">${items.map(item => `
-    <div class="item-card acomp-card">
+    <div class="item-card acomp-card" data-item-name="${item.name}">
       <div class="item-name">${item.name}</div>
       <div class="item-price">${priceHTML(item.price)}</div>
     </div>`).join('')}</div>`;
@@ -77,12 +93,10 @@ function renderBadgeItems(section) {
     </div>`;
 }
 
-/* ─── Render full menu ──────────────────────────────────── */
 function renderMenu() {
   const container = document.getElementById('menu-content');
   container.innerHTML = MENU_DATA.map(section => {
     let body = '';
-
     if (section.layout === 'badges') {
       body = renderBadgeItems(section);
     } else if (section.layout === 'grid') {
@@ -92,9 +106,8 @@ function renderMenu() {
         item.variants ? renderVariantItem(item) : renderSingleItem(item)
       ).join('');
     }
-
     return `
-      <section class="menu-section" id="section-${section.id}">
+      <section class="menu-section" id="section-${section.id}" data-section-id="${section.id}">
         <div class="section-header">
           <h2 class="section-title">${section.name.toUpperCase()}</h2>
           <div class="section-divider"></div>
@@ -113,8 +126,8 @@ function renderNav() {
     btn.dataset.section = section.id;
     btn.textContent = section.name;
     btn.addEventListener('click', () => {
-      const target = document.getElementById(`section-${section.id}`);
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.getElementById(`section-${section.id}`)
+        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
     container.appendChild(btn);
   });
@@ -122,20 +135,25 @@ function renderNav() {
 
 function initActiveNav() {
   const pills = document.querySelectorAll('.nav-pill');
+  const sections = Array.from(document.querySelectorAll('.menu-section'));
+  const OFFSET = 88 + 46 + 20; // header + nav + cushion
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const id = entry.target.id.replace('section-', '');
-      pills.forEach(p => p.classList.toggle('active', p.dataset.section === id));
-      const activePill = document.querySelector('.nav-pill.active');
-      if (activePill) {
-        activePill.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-      }
+  function update() {
+    let current = sections[0];
+    for (const sec of sections) {
+      if (sec.getBoundingClientRect().top <= OFFSET) current = sec;
+      else break;
+    }
+    const id = current.id.replace('section-', '');
+    pills.forEach(p => {
+      const isActive = p.dataset.section === id;
+      if (isActive === p.classList.contains('active')) return;
+      p.classList.toggle('active', isActive);
+      if (isActive) p.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     });
-  }, { threshold: 0.25, rootMargin: '-70px 0px -55% 0px' });
+  }
 
-  document.querySelectorAll('.menu-section').forEach(s => observer.observe(s));
+  window.addEventListener('scroll', update, { passive: true });
   pills[0]?.classList.add('active');
 }
 
@@ -158,42 +176,221 @@ function updateRateBar() {
   }
 }
 
-/* ─── Toggle currency ───────────────────────────────────── */
+/* ─── Currency toggle ───────────────────────────────────── */
 async function toggleCurrency() {
-  const fab = document.getElementById('currency-toggle');
+  const pill = document.getElementById('currency-toggle');
 
   if (!isBs && !currentRate) {
-    fab.innerHTML = '<span class="fab-icon" style="font-size:0.9rem">...</span>';
-    fab.disabled = true;
+    pill.querySelector('.cpill-text').textContent = '...';
+    pill.disabled = true;
     await fetchExchangeRate();
-    fab.disabled = false;
+    pill.disabled = false;
 
     if (!currentRate) {
-      fab.innerHTML = '<span class="fab-icon">$</span><span class="fab-sub">USD</span>';
+      pill.querySelector('.cpill-text').textContent = '$ USD';
       alert('No se pudo obtener la tasa de cambio. Intenta más tarde.');
       return;
     }
   }
 
   isBs = !isBs;
-  fab.innerHTML = isBs
-    ? '<span class="fab-icon">Bs</span><span class="fab-sub">VES</span>'
-    : '<span class="fab-icon">$</span><span class="fab-sub">USD</span>';
-  fab.classList.toggle('bs-mode', isBs);
-
+  pill.querySelector('.cpill-text').textContent = isBs ? 'Bs. VES' : '$ USD';
   renderMenu();
   updateRateBar();
+
+  if (document.getElementById('cart-page').classList.contains('open')) {
+    renderCartItems();
+    renderComplementa();
+  }
+}
+
+/* ─── Modal ─────────────────────────────────────────────── */
+function openModal(sectionId, itemName) {
+  const section = MENU_DATA.find(s => s.id === sectionId);
+  if (!section) return;
+  const item = section.items.find(i => i.name === itemName);
+  if (!item) return;
+  if (section.layout === 'badges') return; // salsas — no modal
+
+  modalItem = item;
+  modalQty = 1;
+  modalVariant = item.variants ? item.variants[0] : null;
+
+  document.getElementById('modal-body').innerHTML = buildModalBody(item);
+  document.getElementById('qty-val').textContent = '1';
+
+  // Variant selection
+  document.querySelectorAll('.modal-variant-row').forEach((row, idx) => {
+    row.addEventListener('click', () => {
+      document.querySelectorAll('.modal-variant-row').forEach(r => r.classList.remove('selected'));
+      row.classList.add('selected');
+      modalVariant = modalItem.variants[idx];
+    });
+  });
+
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => { modalItem = null; modalVariant = null; modalQty = 1; }, 300);
+}
+
+function buildModalBody(item) {
+  const variantsHTML = item.variants ? `
+    <div class="modal-variants">
+      ${item.variants.map((v, i) => `
+        <div class="modal-variant-row ${i === 0 ? 'selected' : ''}">
+          <span class="modal-variant-name">${v.name}</span>
+          <span class="modal-variant-price"><span class="sym">$</span>${v.price}</span>
+        </div>`).join('')}
+    </div>` : '';
+
+  return `
+    <div class="modal-product-header">
+      <h2 class="modal-product-name">${item.name}</h2>
+      ${item.description ? `<p class="modal-product-desc">${item.description}</p>` : ''}
+    </div>
+    <div class="modal-photo">${dishImg('modal-photo-img')}</div>
+    ${variantsHTML}
+    <div class="modal-comments">
+      <h3 class="modal-comments-title">COMENTARIOS</h3>
+      <textarea class="modal-comments-input" id="modal-comment" placeholder="Añade aquí tus preferencias"></textarea>
+    </div>`;
+}
+
+function handleAddToCart() {
+  if (!modalItem) return;
+  const price = modalVariant ? modalVariant.price : modalItem.price;
+  const variantName = modalVariant ? modalVariant.name : null;
+  const comment = document.getElementById('modal-comment')?.value.trim() || '';
+  const key = `${modalItem.name}__${variantName || 'default'}`;
+
+  Cart.add({ key, name: modalItem.name, variantName, price, qty: modalQty, comment });
+  closeModal();
+}
+
+/* ─── Cart page ─────────────────────────────────────────── */
+function openCartPage() {
+  renderCartItems();
+  renderComplementa();
+  document.getElementById('cart-page').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCartPage() {
+  document.getElementById('cart-page').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function renderCartItems() {
+  const items = Cart.items();
+  const container = document.getElementById('cart-items-list');
+  const totalEl = document.getElementById('cart-header-total');
+
+  const usd = Cart.usdTotal();
+  totalEl.textContent = priceText(usd);
+
+  if (items.length === 0) {
+    container.innerHTML = '<p class="cart-empty">Tu carrito está vacío</p>';
+    return;
+  }
+
+  container.innerHTML = items.map(item => `
+    <div class="cart-item">
+      <div class="cart-item-photo">${dishImg('cart-item-photo-img')}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        ${item.variantName ? `<div class="cart-item-variant">${item.variantName}</div>` : ''}
+        <div class="cart-item-qty-ctrl">
+          <button class="cart-qty-btn" data-key="${item.key}" data-action="minus">−</button>
+          <span class="cart-qty-val">${item.qty}</span>
+          <button class="cart-qty-btn" data-key="${item.key}" data-action="plus">+</button>
+        </div>
+      </div>
+      <div class="cart-item-price">${priceText(item.price * item.qty)}</div>
+    </div>`).join('');
+
+  container.querySelectorAll('.cart-qty-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.key;
+      const item = Cart.items().find(i => i.key === key);
+      if (!item) return;
+      Cart.setQty(key, btn.dataset.action === 'plus' ? item.qty + 1 : item.qty - 1);
+      renderCartItems();
+    });
+  });
+}
+
+function renderComplementa() {
+  const section = MENU_DATA.find(s => s.id === 'acomp');
+  if (!section) return;
+  document.getElementById('complementa-scroll').innerHTML = section.items.map(item => `
+    <div class="complementa-card">
+      <div class="complementa-photo">${dishImg('complementa-photo-img')}</div>
+      <div class="complementa-name">${item.name}</div>
+      <div class="complementa-price">${priceText(item.price)}</div>
+    </div>`).join('');
+}
+
+/* ─── Event delegation — menu cards ─────────────────────── */
+function initCardClicks() {
+  document.getElementById('menu-content').addEventListener('click', e => {
+    const card = e.target.closest('.item-card[data-item-name]');
+    if (!card) return;
+    const section = card.closest('[data-section-id]');
+    if (!section) return;
+    openModal(section.dataset.sectionId, card.dataset.itemName);
+  });
 }
 
 /* ─── Init ──────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
+  Cart.load();
   renderNav();
   renderMenu();
   initActiveNav();
+  initCardClicks();
+  fetchExchangeRate();
 
+  /* Currency toggle */
   document.getElementById('currency-toggle')
     .addEventListener('click', toggleCurrency);
 
-  // Prefetch rate silently
-  fetchExchangeRate();
+  /* Cart FAB → open cart page */
+  document.getElementById('cart-fab')
+    .addEventListener('click', openCartPage);
+
+  /* Cart back button */
+  document.getElementById('cart-back')
+    .addEventListener('click', closeCartPage);
+
+  /* Modal close */
+  document.getElementById('modal-close')
+    .addEventListener('click', closeModal);
+
+  document.getElementById('modal-overlay').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeModal();
+  });
+
+  /* Modal qty */
+  document.getElementById('qty-minus').addEventListener('click', () => {
+    if (modalQty > 1) { modalQty--; document.getElementById('qty-val').textContent = modalQty; }
+  });
+  document.getElementById('qty-plus').addEventListener('click', () => {
+    modalQty++; document.getElementById('qty-val').textContent = modalQty;
+  });
+
+  /* Add to cart */
+  document.getElementById('add-btn').addEventListener('click', handleAddToCart);
+
+  /* Service type buttons */
+  document.querySelectorAll('.service-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.service-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
 });
