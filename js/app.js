@@ -163,13 +163,13 @@ async function toggleCurrency() {
   const fab = document.getElementById('currency-toggle');
 
   if (!isBs && !currentRate) {
-    fab.textContent = '...';
+    fab.innerHTML = '<span class="fab-icon" style="font-size:0.9rem">...</span>';
     fab.disabled = true;
     await fetchExchangeRate();
     fab.disabled = false;
 
     if (!currentRate) {
-      fab.textContent = '$ USD';
+      fab.innerHTML = '<span class="fab-icon">$</span><span class="fab-sub">USD</span>';
       alert('No se pudo obtener la tasa de cambio. Intenta más tarde.');
       return;
     }
@@ -177,8 +177,8 @@ async function toggleCurrency() {
 
   isBs = !isBs;
   fab.innerHTML = isBs
-    ? '<span class="fab-dot"></span>Bs.'
-    : '<span class="fab-dot"></span>$ USD';
+    ? '<span class="fab-icon">Bs</span><span class="fab-sub">VES</span>'
+    : '<span class="fab-icon">$</span><span class="fab-sub">USD</span>';
   fab.classList.toggle('bs-mode', isBs);
 
   renderMenu();
