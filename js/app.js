@@ -135,17 +135,25 @@ function renderNav() {
 
 function initActiveNav() {
   const pills = document.querySelectorAll('.nav-pill');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const id = entry.target.id.replace('section-', '');
-      pills.forEach(p => p.classList.toggle('active', p.dataset.section === id));
-      document.querySelector('.nav-pill.active')
-        ?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    });
-  }, { threshold: 0.25, rootMargin: '-70px 0px -55% 0px' });
+  const sections = Array.from(document.querySelectorAll('.menu-section'));
+  const OFFSET = 88 + 46 + 20; // header + nav + cushion
 
-  document.querySelectorAll('.menu-section').forEach(s => observer.observe(s));
+  function update() {
+    let current = sections[0];
+    for (const sec of sections) {
+      if (sec.getBoundingClientRect().top <= OFFSET) current = sec;
+      else break;
+    }
+    const id = current.id.replace('section-', '');
+    pills.forEach(p => {
+      const isActive = p.dataset.section === id;
+      if (isActive === p.classList.contains('active')) return;
+      p.classList.toggle('active', isActive);
+      if (isActive) p.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    });
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
   pills[0]?.classList.add('active');
 }
 

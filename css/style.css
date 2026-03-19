@@ -130,11 +130,19 @@ body {
   transition: color 0.18s, border-color 0.18s, background 0.18s;
 }
 
-.nav-pill.active,
-.nav-pill:hover {
+.nav-pill.active {
   color: var(--white);
   border-color: var(--red);
   background: var(--red-faint);
+}
+
+/* hover solo en dispositivos con mouse real (evita sticky-hover en mobile) */
+@media (hover: hover) {
+  .nav-pill:hover {
+    color: var(--white);
+    border-color: var(--red);
+    background: var(--red-faint);
+  }
 }
 
 /* ─── Menu Main ──────────────────────────────────────────────────── */
@@ -559,18 +567,20 @@ body {
 ::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
 
 /* ═══════════════════════════════════════════════════════════════════
-   PRODUCT MODAL (bottom sheet)
+   PRODUCT MODAL (centered dialog)
 ═══════════════════════════════════════════════════════════════════ */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.72);
+  background: rgba(0, 0, 0, 0.75);
   z-index: 500;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.25s;
+  transition: opacity 0.22s;
 }
 
 .modal-overlay.open {
@@ -580,14 +590,16 @@ body {
 
 .modal-sheet {
   background: #141414;
-  border-radius: 20px 20px 0 0;
+  border-radius: 16px;
+  border-left: 3px solid var(--red);
   width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  max-height: 88vh;
+  max-width: 540px;
+  max-height: calc(100vh - 48px);
   overflow-y: auto;
-  transform: translateY(100%);
-  transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+  transform: scale(0.94) translateY(10px);
+  transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1),
+              opacity 0.22s;
+  opacity: 0;
   position: relative;
   scrollbar-width: none;
 }
@@ -595,7 +607,8 @@ body {
 .modal-sheet::-webkit-scrollbar { display: none; }
 
 .modal-overlay.open .modal-sheet {
-  transform: translateY(0);
+  transform: scale(1) translateY(0);
+  opacity: 1;
 }
 
 .modal-close {
