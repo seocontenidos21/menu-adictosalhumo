@@ -147,6 +147,8 @@ body {
 /* ─── Section ────────────────────────────────────────────────────── */
 .menu-section {
   padding: 0 16px;
+  /* offset scroll target below sticky header + nav */
+  scroll-margin-top: calc(var(--header-h) + var(--nav-h) + 8px);
 }
 
 .section-header {
@@ -176,10 +178,25 @@ body {
 .item-card {
   background: var(--card);
   border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--red);
   border-radius: 10px;
   padding: 14px 16px;
   margin-bottom: 10px;
-  transition: background 0.15s;
+  cursor: pointer;
+  transition: background 0.18s, border-left-color 0.18s, border-left-width 0.18s, box-shadow 0.18s;
+}
+
+.item-card:hover {
+  background: #1c1c1c;
+  border-left-width: 5px;
+  border-left-color: #ff3333;
+  box-shadow: -4px 0 14px rgba(204, 17, 17, 0.25);
+}
+
+.item-card:active {
+  background: #202020;
+  border-left-color: #ff5555;
+  box-shadow: -4px 0 20px rgba(204, 17, 17, 0.4);
 }
 
 .item-card:last-child {
@@ -278,6 +295,18 @@ body {
 
 .acomp-card .item-price {
   font-size: 1.25rem;
+}
+
+/* cards sin modal (salsas section) no muestran hover */
+#section-salsas .item-card {
+  cursor: default;
+}
+#section-salsas .item-card:hover,
+#section-salsas .item-card:active {
+  background: var(--card);
+  border-left-width: 3px;
+  border-left-color: var(--red);
+  box-shadow: none;
 }
 
 /* ─── Salsas Badges ──────────────────────────────────────────────── */
