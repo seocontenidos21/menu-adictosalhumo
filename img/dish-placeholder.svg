@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1e1e"/>
+      <stop offset="100%" stop-color="#0d0d0d"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="45%" r="40%">
+      <stop offset="0%" stop-color="#cc1111" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#cc1111" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <rect width="400" height="300" fill="url(#glow)"/>
+
+  <!-- Smoke wisps -->
+  <path d="M180 90 Q175 70 182 55 Q188 40 184 28" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <path d="M200 95 Q194 72 200 56 Q206 40 202 26" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+  <path d="M220 90 Q226 70 218 55 Q212 40 217 28" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- Grill grate -->
+  <g opacity="0.25">
+    <line x1="140" y1="185" x2="260" y2="185" stroke="#555" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="140" y1="197" x2="260" y2="197" stroke="#555" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="140" y1="209" x2="260" y2="209" stroke="#555" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="155" y1="178" x2="155" y2="216" stroke="#555" stroke-width="2" stroke-linecap="round"/>
+    <line x1="175" y1="178" x2="175" y2="216" stroke="#555" stroke-width="2" stroke-linecap="round"/>
+    <line x1="195" y1="178" x2="195" y2="216" stroke="#555" stroke-width="2" stroke-linecap="round"/>
+    <line x1="215" y1="178" x2="215" y2="216" stroke="#555" stroke-width="2" stroke-linecap="round"/>
+    <line x1="235" y1="178" x2="235" y2="216" stroke="#555" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Meat piece (brisket silhouette) -->
+  <path d="M145 175 C148 155 165 142 195 140 C225 138 248 148 255 162 C262 176 258 185 245 188 C225 192 175 192 158 188 C148 185 143 180 145 175Z"
+        fill="#2a1a1a" stroke="#cc1111" stroke-width="1.5" opacity="0.85"/>
+  <!-- Smoke ring (red ring on meat) -->
+  <path d="M162 168 C168 158 185 153 205 153 C225 153 240 160 244 170"
+        stroke="#cc1111" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- Flame -->
+  <g transform="translate(193, 92)">
+    <path d="M7 0 C7 0 14 9 14 15 C14 21 11 25 7 28 C3 25 0 21 0 15 C0 9 7 0 7 0Z"
+          fill="#cc1111" opacity="0.75"/>
+    <path d="M7 7 C7 7 11 13 11 17 C11 21 9.5 23 7 25 C4.5 23 3 21 3 17 C3 13 7 7 7 7Z"
+          fill="#ff6633" opacity="0.65"/>
+    <ellipse cx="7" cy="28" rx="7" ry="2.5" fill="#cc1111" opacity="0.15"/>
+  </g>
+
+  <!-- Bottom accent -->
+  <rect x="172" y="240" width="56" height="1.5" rx="1" fill="#cc1111" opacity="0.35"/>
+
+  <!-- Brand text -->
+  <text x="200" y="260"
+    font-family="'Bebas Neue', Impact, Arial Narrow, sans-serif"
+    font-size="12" fill="#3a3a3a" text-anchor="middle" letter-spacing="4">
+    ADICTOS AL HUMO
+  </text>
+  <text x="200" y="274"
+    font-family="Arial, sans-serif"
+    font-size="8" fill="#2a2a2a" text-anchor="middle" letter-spacing="2">
+    SMOKEHOUSE
+  </text>
+</svg>

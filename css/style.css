@@ -654,11 +654,12 @@ body {
   overflow: hidden;
 }
 
-.modal-photo img {
+.modal-photo-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 10px;
+  display: block;
 }
 
 .modal-variants {
@@ -910,10 +911,12 @@ body {
   overflow: hidden;
 }
 
-.cart-item-photo img {
+.cart-item-photo-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  border-radius: 8px;
 }
 
 .cart-item-info {
@@ -1015,10 +1018,15 @@ body {
   height: 96px;
   background: linear-gradient(135deg, #1a1a1a, #111);
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
   margin-bottom: 6px;
+}
+
+.complementa-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .complementa-name {

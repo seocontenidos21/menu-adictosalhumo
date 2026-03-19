@@ -41,12 +41,14 @@ function priceText(price) {
   return `$${price}`;
 }
 
-/* ─── Menu render ───────────────────────────────────────── */
-function flameSVG(opacity = '0.35') {
-  return `<svg width="28" height="34" viewBox="0 0 40 48" fill="none">
-    <path d="M20 4C20 4 28 14 28 22C28 30 24 36 20 40C16 36 12 30 12 22C12 14 20 4 20 4Z" fill="#cc1111" opacity="${opacity}"/>
-  </svg>`;
+/* ─── Placeholder image ─────────────────────────────────── */
+const DISH_IMG = 'img/dish-placeholder.svg';
+
+function dishImg(cls = '') {
+  return `<img src="${DISH_IMG}" alt="Platillo" class="${cls}" loading="lazy" />`;
 }
+
+/* ─── Menu render ───────────────────────────────────────── */
 
 function renderSingleItem(item) {
   const clickable = (item.price !== undefined) ? `data-item-name="${item.name}"` : '';
@@ -243,7 +245,7 @@ function buildModalBody(item) {
       <h2 class="modal-product-name">${item.name}</h2>
       ${item.description ? `<p class="modal-product-desc">${item.description}</p>` : ''}
     </div>
-    <div class="modal-photo">${flameSVG('0.5')}</div>
+    <div class="modal-photo">${dishImg('modal-photo-img')}</div>
     ${variantsHTML}
     <div class="modal-comments">
       <h3 class="modal-comments-title">COMENTARIOS</h3>
@@ -290,7 +292,7 @@ function renderCartItems() {
 
   container.innerHTML = items.map(item => `
     <div class="cart-item">
-      <div class="cart-item-photo">${flameSVG()}</div>
+      <div class="cart-item-photo">${dishImg('cart-item-photo-img')}</div>
       <div class="cart-item-info">
         <div class="cart-item-name">${item.name}</div>
         ${item.variantName ? `<div class="cart-item-variant">${item.variantName}</div>` : ''}
@@ -319,7 +321,7 @@ function renderComplementa() {
   if (!section) return;
   document.getElementById('complementa-scroll').innerHTML = section.items.map(item => `
     <div class="complementa-card">
-      <div class="complementa-photo">${flameSVG()}</div>
+      <div class="complementa-photo">${dishImg('complementa-photo-img')}</div>
       <div class="complementa-name">${item.name}</div>
       <div class="complementa-price">${priceText(item.price)}</div>
     </div>`).join('');
