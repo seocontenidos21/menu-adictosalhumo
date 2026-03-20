@@ -386,11 +386,36 @@ document.addEventListener('DOMContentLoaded', () => {
   /* Add to cart */
   document.getElementById('add-btn').addEventListener('click', handleAddToCart);
 
-  /* Service type buttons */
+  /* Service type buttons → WhatsApp order */
+  const WA_NUMBER = '584247779990';
+  const SERVICE_LABEL = { local: 'En el local', llevar: 'Para llevar', domicilio: 'A domicilio' };
+
   document.querySelectorAll('.service-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.service-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+
+      const items = Cart.items();
+      if (!items.length) return;
+
+      const service = btn.dataset.service;
+      const lines = items.map(it => {
+        const variantSuffix = it.variant ? ` (${it.variant})` : '';
+        const commentSuffix = it.comment ? ` — "${it.comment}"` : '';
+        return `\u2022 ${it.qty}x ${it.name}${variantSuffix}${commentSuffix}`;
+      });
+      const total = Cart.usdTotal();
+
+      const msg = [
+        `\u{1F969} *Pedido \u2014 Adictos al Humo Smokehouse*`,
+        `\u{1F4E6} Tipo: *${SERVICE_LABEL[service]}*`,
+        ``,
+        ...lines,
+        ``,
+        `\u{1F4B5} Total: *$${total.toFixed(2)}*`,
+      ].join('\n');
+
+      window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
     });
   });
 });
