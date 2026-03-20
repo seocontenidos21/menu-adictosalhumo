@@ -317,15 +317,15 @@ function renderCartItems() {
 }
 
 function renderComplementa() {
-  // Pick items from real menu sections: bebidas + longaniza + alitas
+  // Pick items from real menu sections: bebidas + entradas
   const picks = [
-    { sectionId: 'humo',    name: 'Longaniza Artesanal' },
-    { sectionId: 'humo',    name: 'Alitas Crispy' },
-    { sectionId: 'bebidas', name: 'Jugos Naturales' },
-    { sectionId: 'bebidas', name: 'Granizados \u2013 Frappes' },
-    { sectionId: 'bebidas', name: 'Refresco de Lata' },
-    { sectionId: 'bebidas', name: 'Cerveza' },
-    { sectionId: 'bebidas', name: 'Agua Minalba' },
+    { sectionId: 'entradas', name: 'Longaniza de Brisket' },
+    { sectionId: 'entradas', name: 'Longaniza de Cheddar Jalapeño' },
+    { sectionId: 'entradas', name: 'Alitas Crispy' },
+    { sectionId: 'bebidas',  name: 'Granizado' },
+    { sectionId: 'bebidas',  name: 'Refresco de Lata' },
+    { sectionId: 'bebidas',  name: 'Cerveza' },
+    { sectionId: 'bebidas',  name: 'Agua 600ml' },
   ];
 
   const cards = picks.map(({ sectionId, name }) => {
