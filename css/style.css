@@ -1007,6 +1007,8 @@ body::before {
 }
 
 .cart-qty-btn:active { background: rgba(255,255,255,0.1); }
+.cart-qty-btn.is-delete { color: var(--red); }
+.cart-qty-btn.is-delete:active { background: rgba(204,17,17,0.15); }
 
 .cart-qty-val {
   font-family: 'Bebas Neue', sans-serif;

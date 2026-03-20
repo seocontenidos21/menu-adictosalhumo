@@ -294,6 +294,8 @@ function renderCartItems() {
     return;
   }
 
+  const TRASH_ICON = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>`;
+
   container.innerHTML = items.map(item => `
     <div class="cart-item">
       <div class="cart-item-photo">${dishImg('cart-item-photo-img')}</div>
@@ -301,7 +303,7 @@ function renderCartItems() {
         <div class="cart-item-name">${item.name}</div>
         ${item.variantName ? `<div class="cart-item-variant">${item.variantName}</div>` : ''}
         <div class="cart-item-qty-ctrl">
-          <button class="cart-qty-btn" data-key="${item.key}" data-action="minus">−</button>
+          <button class="cart-qty-btn${item.qty === 1 ? ' is-delete' : ''}" data-key="${item.key}" data-action="minus">${item.qty === 1 ? TRASH_ICON : '−'}</button>
           <span class="cart-qty-val">${item.qty}</span>
           <button class="cart-qty-btn" data-key="${item.key}" data-action="plus">+</button>
         </div>
@@ -321,22 +323,28 @@ function renderCartItems() {
 }
 
 function renderComplementa() {
-  // Pick items from real menu sections: bebidas + entradas
-  const picks = [
-    { sectionId: 'entradas', name: 'Longaniza de Brisket' },
-    { sectionId: 'entradas', name: 'Longaniza de Cheddar Jalapeño' },
-    { sectionId: 'entradas', name: 'Alitas Crispy' },
-    { sectionId: 'bebidas',  name: 'Granizado' },
-    { sectionId: 'bebidas',  name: 'Refresco de Lata' },
-    { sectionId: 'bebidas',  name: 'Cerveza' },
-    { sectionId: 'bebidas',  name: 'Agua 600ml' },
-  ];
+  const cartNames = new Set(Cart.items().map(i => i.name));
 
-  const cards = picks.map(({ sectionId, name }) => {
-    const section = MENU_DATA.find(s => s.id === sectionId);
-    if (!section) return '';
-    const item = section.items.find(i => i.name === name);
-    if (!item) return '';
+  // Build pool from all orderable items, excluding what's already in the cart
+  const pool = [];
+  for (const section of MENU_DATA) {
+    if (section.layout === 'badges') continue;
+    for (const item of section.items) {
+      if (cartNames.has(item.name)) continue;
+      const hasPrice = item.price != null || item.variants?.length > 0;
+      if (!hasPrice) continue;
+      pool.push({ sectionId: section.id, item });
+    }
+  }
+
+  // Fisher-Yates shuffle, then take up to 6
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  const picks = pool.slice(0, 6);
+
+  const cards = picks.map(({ sectionId, item }) => {
     const displayPrice = item.price != null ? priceText(item.price)
       : item.variants ? priceText(item.variants[0].price) : '';
     return `
