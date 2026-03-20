@@ -240,7 +240,7 @@ function buildModalBody(item) {
       ${item.variants.map((v, i) => `
         <div class="modal-variant-row ${i === 0 ? 'selected' : ''}">
           <span class="modal-variant-name">${v.name}</span>
-          <span class="modal-variant-price"><span class="sym">$</span>${v.price}</span>
+          <span class="modal-variant-price">${priceHTML(v.price)}</span>
         </div>`).join('')}
     </div>` : '';
 
