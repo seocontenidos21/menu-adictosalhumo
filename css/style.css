@@ -315,33 +315,6 @@ body {
 }
 
 /* ─── Rate Bar ───────────────────────────────────────────────────── */
-.rate-bar {
-  position: fixed;
-  bottom: 90px;
-  right: 16px;
-  z-index: 190;
-  background: rgba(10, 10, 10, 0.92);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 6px 12px;
-  font-size: 0.7rem;
-  color: var(--muted-light);
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.2s, transform 0.2s;
-  pointer-events: none;
-  backdrop-filter: blur(6px);
-}
-
-.rate-bar.visible {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-.rate-bar strong {
-  color: var(--white);
-}
 
 /* ─── Cart FAB ───────────────────────────────────────────────────── */
 .fab-cart {

@@ -157,24 +157,6 @@ function initActiveNav() {
   pills[0]?.classList.add('active');
 }
 
-/* ─── Rate bar ──────────────────────────────────────────── */
-function updateRateBar() {
-  const bar = document.getElementById('rate-bar');
-  const rateVal = document.getElementById('rate-value');
-  const rateDate = document.getElementById('rate-date');
-
-  if (isBs && currentRate) {
-    rateVal.textContent = currentRate.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    if (rateUpdatedAt) {
-      rateDate.textContent = rateUpdatedAt.toLocaleDateString('es-VE', {
-        day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'
-      });
-    }
-    bar.classList.add('visible');
-  } else {
-    bar.classList.remove('visible');
-  }
-}
 
 /* ─── Currency toggle ───────────────────────────────────── */
 async function toggleCurrency() {
@@ -196,7 +178,6 @@ async function toggleCurrency() {
   isBs = !isBs;
   pill.querySelector('.cpill-text').textContent = isBs ? 'Bs. VES' : '$ USD';
   renderMenu();
-  updateRateBar();
 
   if (document.getElementById('cart-page').classList.contains('open')) {
     renderCartItems();
