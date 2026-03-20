@@ -137,10 +137,12 @@ function renderNav() {
 
 function initActiveNav() {
   const pills = document.querySelectorAll('.nav-pill');
-  const sections = Array.from(document.querySelectorAll('.menu-section'));
   const OFFSET = 88 + 46 + 20; // header + nav + cushion
+  const navEl = document.querySelector('.section-nav');
 
   function update() {
+    const sections = Array.from(document.querySelectorAll('.menu-section'));
+    if (!sections.length) return;
     let current = sections[0];
     for (const sec of sections) {
       if (sec.getBoundingClientRect().top <= OFFSET) current = sec;
@@ -151,7 +153,9 @@ function initActiveNav() {
       const isActive = p.dataset.section === id;
       if (isActive === p.classList.contains('active')) return;
       p.classList.toggle('active', isActive);
-      if (isActive) p.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      if (isActive && navEl.scrollWidth > navEl.clientWidth) {
+        p.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
     });
   }
 

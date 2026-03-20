@@ -140,6 +140,14 @@ body::before {
   min-width: max-content;
 }
 
+@media (min-width: 768px) {
+  .nav-pills {
+    min-width: 0;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
 .nav-pill {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 0.82rem;
