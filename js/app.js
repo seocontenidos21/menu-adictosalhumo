@@ -27,6 +27,7 @@ async function fetchExchangeRate() {
 
 /* ─── Price formatting ──────────────────────────────────── */
 function priceHTML(price) {
+  if (isBs && !currentRate) return `<span class="price-skeleton"></span>`;
   if (isBs && currentRate) {
     const bs = Math.round(price * currentRate);
     return `<span class="sym">Bs.</span>&nbsp;${bs.toLocaleString('es-VE')}`;
@@ -35,6 +36,7 @@ function priceHTML(price) {
 }
 
 function priceText(price) {
+  if (isBs && !currentRate) return `<span class="price-skeleton"></span>`;
   if (isBs && currentRate) {
     return `Bs. ${Math.round(price * currentRate).toLocaleString('es-VE')}`;
   }
@@ -365,6 +367,7 @@ function initCardClicks() {
 document.addEventListener('DOMContentLoaded', () => {
   Cart.load();
   renderNav();
+  renderMenu();
   fetchExchangeRate().finally(renderMenu);
   initActiveNav();
   initCardClicks();

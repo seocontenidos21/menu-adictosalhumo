@@ -369,6 +369,23 @@ body::before {
 
 /* ─── Rate Bar ───────────────────────────────────────────────────── */
 
+/* ─── Price skeleton ─────────────────────────────────────────────── */
+.price-skeleton {
+  display: inline-block;
+  width: 64px;
+  height: 13px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #2a2a2a 25%, #3c3c3c 50%, #2a2a2a 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  vertical-align: middle;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 /* ─── Cart FAB ───────────────────────────────────────────────────── */
 .fab-cart {
   position: fixed;
