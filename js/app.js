@@ -176,7 +176,10 @@ async function toggleCurrency() {
   }
 
   isBs = !isBs;
-  pill.querySelector('.cpill-text').textContent = isBs ? 'Bs. VES' : '$ USD';
+  const label = isBs ? 'Bs. VES' : '$ USD';
+  pill.querySelector('.cpill-text').textContent = label;
+  const cartBtn = document.getElementById('cart-currency-btn');
+  if (cartBtn) cartBtn.querySelector('.cart-currency-text').textContent = label;
   renderMenu();
 
   if (document.getElementById('cart-page').classList.contains('open')) {
@@ -372,6 +375,9 @@ document.addEventListener('DOMContentLoaded', () => {
   /* Cart back button */
   document.getElementById('cart-back')
     .addEventListener('click', closeCartPage);
+
+  document.getElementById('cart-currency-btn')
+    .addEventListener('click', toggleCurrency);
 
   /* Modal close */
   document.getElementById('modal-close')

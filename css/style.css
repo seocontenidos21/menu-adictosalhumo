@@ -794,6 +794,27 @@ body {
   flex-shrink: 0;
 }
 
+.cart-currency-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(204,17,17,0.18);
+  border: 1px solid rgba(204,17,17,0.4);
+  border-radius: 100px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.cart-currency-btn:active { background: rgba(204,17,17,0.32); }
+
+.cart-currency-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: var(--white);
+}
+
 .cart-back {
   display: flex;
   align-items: center;
