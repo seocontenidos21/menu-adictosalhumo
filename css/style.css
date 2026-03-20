@@ -30,16 +30,22 @@ html {
 }
 
 body {
-  background-color: var(--bg);
-  background-image: linear-gradient(rgba(8,8,8,0.68), rgba(8,8,8,0.68)), url('../img/carboncarne.jpg');
-  background-size: cover;
-  background-position: center center;
-  background-attachment: fixed;
+  background: var(--bg);
   color: var(--white);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: linear-gradient(rgba(8,8,8,0.45), rgba(8,8,8,0.45)), url('../img/carboncarne.jpg');
+  background-size: cover;
+  background-position: center center;
 }
 
 /* ─── Header ─────────────────────────────────────────────────────── */
@@ -776,10 +782,9 @@ body {
   inset: 0;
   height: 100dvh;
   background-color: var(--bg);
-  background-image: linear-gradient(rgba(8,8,8,0.68), rgba(8,8,8,0.68)), url('../img/carbon.jpg');
+  background-image: linear-gradient(rgba(8,8,8,0.45), rgba(8,8,8,0.45)), url('../img/carbon.jpg');
   background-size: cover;
   background-position: center center;
-  background-attachment: fixed;
   z-index: 400;
   transform: translateX(100%);
   transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
