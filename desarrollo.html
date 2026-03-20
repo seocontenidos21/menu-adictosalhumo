@@ -22,6 +22,12 @@
   <header class="site-header">
     <div class="header-inner">
       <img src="img/Logo AAHSM 01.webp" alt="Adictos al Humo Smokehouse" class="header-logo" />
+      <div class="header-right-slot">
+        <button class="header-currency-btn" id="currency-toggle" aria-label="Cambiar moneda">
+          <span class="cpill-text">Bs. VES</span>
+        </button>
+        <span class="header-descuento-tag" id="descuentos-tag" style="visibility:hidden">&#x2014; DESCUENTOS &#x2014;</span>
+      </div>
     </div>
   </header>
 
@@ -63,11 +69,6 @@
     <span class="cart-badge" id="cart-badge" hidden>0</span>
   </button>
 
-  <!-- Currency Pill -->
-  <button class="currency-pill" id="currency-toggle" aria-label="Cambiar moneda">
-    <span class="cpill-dot"></span>
-    <span class="cpill-text">$ USD</span>
-  </button>
 
 
   <!-- ══════════════════════════════════════════════════════
@@ -106,20 +107,22 @@
     <header class="site-header">
       <div class="header-inner">
         <img src="img/Logo AAHSM 01.webp" alt="Adictos al Humo Smokehouse" class="header-logo" />
+        <div class="header-right-slot">
+          <button class="header-currency-btn" id="cart-currency-btn" aria-label="Cambiar moneda">
+            <span class="cpill-text">Bs. VES</span>
+          </button>
+          <span class="header-descuento-tag" id="cart-descuentos-tag" style="visibility:hidden">&#x2014; DESCUENTOS &#x2014;</span>
+        </div>
       </div>
     </header>
 
-    <!-- Sub-header: back + currency + total -->
+    <!-- Sub-header: back + total -->
     <div class="cart-subheader">
       <button class="cart-back" id="cart-back">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M19 12H5M12 19l-7-7 7-7"/>
         </svg>
         ATRÁS
-      </button>
-      <button class="cart-currency-btn" id="cart-currency-btn">
-        <span class="cpill-dot"></span>
-        <span class="cart-currency-text">$ USD</span>
       </button>
       <div class="cart-header-right">
         <span class="cart-header-label">Tu carrito</span>

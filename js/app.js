@@ -1,7 +1,7 @@
 /* ─── State ─────────────────────────────────────────────── */
 let currentRate = null;
 let rateUpdatedAt = null;
-let isBs = false;
+let isBs = true;
 
 /* Modal state */
 let modalItem = null;
@@ -160,16 +160,16 @@ function initActiveNav() {
 
 /* ─── Currency toggle ───────────────────────────────────── */
 async function toggleCurrency() {
-  const pill = document.getElementById('currency-toggle');
+  const btn = document.getElementById('currency-toggle');
 
-  if (!isBs && !currentRate) {
-    pill.querySelector('.cpill-text').textContent = '...';
-    pill.disabled = true;
+  if (isBs && !currentRate) {
+    btn.querySelector('.cpill-text').textContent = '...';
+    btn.disabled = true;
     await fetchExchangeRate();
-    pill.disabled = false;
+    btn.disabled = false;
 
     if (!currentRate) {
-      pill.querySelector('.cpill-text').textContent = '$ USD';
+      btn.querySelector('.cpill-text').textContent = 'Bs. VES';
       alert('No se pudo obtener la tasa de cambio. Intenta más tarde.');
       return;
     }
@@ -177,9 +177,15 @@ async function toggleCurrency() {
 
   isBs = !isBs;
   const label = isBs ? 'Bs. VES' : '$ USD';
-  pill.querySelector('.cpill-text').textContent = label;
+  btn.querySelector('.cpill-text').textContent = label;
   const cartBtn = document.getElementById('cart-currency-btn');
-  if (cartBtn) cartBtn.querySelector('.cart-currency-text').textContent = label;
+  if (cartBtn) cartBtn.querySelector('.cpill-text').textContent = label;
+
+  const visibility = isBs ? 'hidden' : 'visible';
+  const descTag = document.getElementById('descuentos-tag');
+  if (descTag) descTag.style.visibility = visibility;
+  const cartDescTag = document.getElementById('cart-descuentos-tag');
+  if (cartDescTag) cartDescTag.style.visibility = visibility;
   renderMenu();
 
   if (document.getElementById('cart-page').classList.contains('open')) {
@@ -359,7 +365,7 @@ function initCardClicks() {
 document.addEventListener('DOMContentLoaded', () => {
   Cart.load();
   renderNav();
-  renderMenu();
+  fetchExchangeRate().finally(renderMenu);
   initActiveNav();
   initCardClicks();
   fetchExchangeRate();
