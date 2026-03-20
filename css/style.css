@@ -797,6 +797,7 @@ body {
 .cart-page {
   position: fixed;
   inset: 0;
+  height: 100dvh;
   background: var(--bg);
   z-index: 400;
   transform: translateX(100%);
@@ -857,7 +858,9 @@ body {
 .cart-content {
   flex: 1;
   overflow-y: auto;
-  padding-bottom: 32px;
+  overflow-x: hidden;
+  padding-bottom: 16px;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Cart items */
@@ -1030,9 +1033,13 @@ body {
   color: var(--white);
 }
 
-/* Service type */
+/* Service type — fixed footer inside cart-page */
 .cart-service {
-  padding: 0 16px 24px;
+  flex-shrink: 0;
+  padding: 12px 16px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  background: #141414;
+  border-top: 1px solid var(--border-subtle);
 }
 
 .service-label {
@@ -1046,6 +1053,7 @@ body {
 .service-btns {
   display: flex;
   gap: 8px;
+  width: 100%;
 }
 
 .service-btn {

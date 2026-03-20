@@ -325,14 +325,39 @@ function renderCartItems() {
 }
 
 function renderComplementa() {
-  const section = MENU_DATA.find(s => s.id === 'acomp');
-  if (!section) return;
-  document.getElementById('complementa-scroll').innerHTML = section.items.map(item => `
-    <div class="complementa-card">
+  // Pick items from real menu sections: bebidas + longaniza + alitas
+  const picks = [
+    { sectionId: 'humo',    name: 'Longaniza Artesanal' },
+    { sectionId: 'humo',    name: 'Alitas Crispy' },
+    { sectionId: 'bebidas', name: 'Jugos Naturales' },
+    { sectionId: 'bebidas', name: 'Granizados \u2013 Frappes' },
+    { sectionId: 'bebidas', name: 'Refresco de Lata' },
+    { sectionId: 'bebidas', name: 'Cerveza' },
+    { sectionId: 'bebidas', name: 'Agua Minalba' },
+  ];
+
+  const cards = picks.map(({ sectionId, name }) => {
+    const section = MENU_DATA.find(s => s.id === sectionId);
+    if (!section) return '';
+    const item = section.items.find(i => i.name === name);
+    if (!item) return '';
+    const displayPrice = item.price != null ? priceText(item.price)
+      : item.variants ? priceText(item.variants[0].price) : '';
+    return `
+    <div class="complementa-card" data-section-id="${sectionId}" data-item-name="${item.name}" role="button" tabindex="0">
       <div class="complementa-photo">${dishImg('complementa-photo-img')}</div>
       <div class="complementa-name">${item.name}</div>
-      <div class="complementa-price">${priceText(item.price)}</div>
-    </div>`).join('');
+      <div class="complementa-price">${displayPrice}</div>
+    </div>`;
+  }).join('');
+
+  const el = document.getElementById('complementa-scroll');
+  el.innerHTML = cards;
+  el.addEventListener('click', e => {
+    const card = e.target.closest('.complementa-card[data-item-name]');
+    if (!card) return;
+    openModal(card.dataset.sectionId, card.dataset.itemName);
+  });
 }
 
 /* ─── Event delegation — menu cards ─────────────────────── */
