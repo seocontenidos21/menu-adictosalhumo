@@ -47,23 +47,33 @@
     <div class="admin-panel" id="admin-panel">
 
       <div class="admin-rate-current" id="current-rate">
-        Cargando tasa actual...
+        Cargando tasas actuales...
       </div>
 
       <hr class="admin-divider" />
 
       <form id="rate-form" novalidate>
-        <label class="admin-label" for="rate-input">Nueva tasa (Bs. por $1)</label>
+        <label class="admin-label" for="rate-paralela-input">Tasa paralela — mercado (Bs. por $1)</label>
         <input
           class="admin-input"
-          id="rate-input"
+          id="rate-paralela-input"
           type="number"
           min="0.01"
           step="0.01"
-          placeholder="Ej: 36.50"
+          placeholder="Ej: 65.00"
           required
         />
-        <button class="admin-btn" id="update-btn" type="submit">GUARDAR TASA</button>
+        <label class="admin-label" for="rate-bcv-input">Tasa BCV — oficial (Bs. por $1)</label>
+        <input
+          class="admin-input"
+          id="rate-bcv-input"
+          type="number"
+          min="0.01"
+          step="0.01"
+          placeholder="Ej: 45.00"
+          required
+        />
+        <button class="admin-btn" id="update-btn" type="submit">GUARDAR TASAS</button>
       </form>
       <p class="admin-msg" id="update-msg"></p>
     </div>

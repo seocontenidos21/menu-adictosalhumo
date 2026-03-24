@@ -1,5 +1,6 @@
 /* ─── State ─────────────────────────────────────────────── */
-let currentRate = null;
+let currentRate = null;      // tasa_paralela (mercado)
+let currentRateBcv = null;   // tasa_bcv (oficial BCV)
 let rateUpdatedAt = null;
 let isBs = true;
 
@@ -12,13 +13,14 @@ let modalQty = 1;
 async function fetchExchangeRate() {
   try {
     const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/exchange_rate?select=tasa,updated_at&id=eq.1`,
+      `${SUPABASE_URL}/rest/v1/exchange_rate?select=tasa_paralela,tasa_bcv,created_at&order=created_at.desc&limit=1`,
       { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
     );
     const data = await res.json();
     if (data && data.length > 0) {
-      currentRate = parseFloat(data[0].tasa);
-      rateUpdatedAt = new Date(data[0].updated_at);
+      currentRate    = parseFloat(data[0].tasa_paralela);
+      currentRateBcv = parseFloat(data[0].tasa_bcv);
+      rateUpdatedAt  = new Date(data[0].created_at);
     }
   } catch (e) {
     console.warn('No se pudo obtener la tasa:', e);
@@ -26,13 +28,40 @@ async function fetchExchangeRate() {
 }
 
 /* ─── Price formatting ──────────────────────────────────── */
+
+/**
+ * Redondeo inteligente para precio tachado (precio "original" creíble).
+ * Siempre redondea hacia arriba a un múltiplo natural según el rango.
+ */
+function smartRoundStrike(raw, actualPrice) {
+  let rounded;
+  if (raw < 4)       rounded = Math.ceil(raw * 2) / 2;    // múltiplos de $0.50
+  else if (raw < 15) rounded = Math.ceil(raw);             // enteros
+  else if (raw < 30) rounded = Math.ceil(raw / 2) * 2;    // múltiplos de $2
+  else               rounded = Math.ceil(raw / 5) * 5;    // múltiplos de $5
+
+  // Garantizar que siempre sea mayor al precio real mostrado
+  if (rounded <= actualPrice) rounded = Math.ceil(actualPrice) + (actualPrice < 10 ? 1 : 2);
+  return rounded;
+}
+
+/** Precio tachado en USD cuando hay ambas tasas disponibles */
+function strikePriceHTML(price) {
+  if (!currentRate || !currentRateBcv || currentRateBcv <= 0) return '';
+  const raw = (price * currentRate) / currentRateBcv;
+  const rounded = smartRoundStrike(raw, price);
+  const display = rounded % 1 === 0 ? rounded : rounded.toFixed(2);
+  return `<del class="price-strike">$${display}</del> `;
+}
+
 function priceHTML(price) {
   if (isBs && !currentRate) return `<span class="price-skeleton"></span>`;
   if (isBs && currentRate) {
     const bs = Math.round(price * currentRate);
     return `<span class="sym">Bs.</span>&nbsp;${bs.toLocaleString('es-VE')}`;
   }
-  return `<span class="sym">$</span>${price}`;
+  // Modo USD: precio tachado (BCV) + precio real (paralela)
+  return `${strikePriceHTML(price)}<span class="sym">$</span>${price}`;
 }
 
 function priceText(price) {

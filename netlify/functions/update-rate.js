@@ -20,7 +20,7 @@ exports.handler = async (event) => {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON' }) };
   }
 
-  const { action, password, tasa } = body;
+  const { action, password, tasa_paralela, tasa_bcv } = body;
 
   /* ─── Verify password ─────────────────────────────────── */
   if (!password || password !== process.env.ADMIN_PASSWORD) {
@@ -34,9 +34,14 @@ exports.handler = async (event) => {
 
   /* ─── Action: update ──────────────────────────────────── */
   if (action === 'update') {
-    const rate = parseFloat(tasa);
-    if (!rate || isNaN(rate) || rate <= 0) {
-      return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid rate value' }) };
+    const rateParalela = parseFloat(tasa_paralela);
+    const rateBcv = parseFloat(tasa_bcv);
+
+    if (!rateParalela || isNaN(rateParalela) || rateParalela <= 0) {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: 'Tasa paralela inválida' }) };
+    }
+    if (!rateBcv || isNaN(rateBcv) || rateBcv <= 0) {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: 'Tasa BCV inválida' }) };
     }
 
     const supabaseUrl = process.env.SUPABASE_URL;
@@ -47,21 +52,26 @@ exports.handler = async (event) => {
     }
 
     try {
-      const res = await fetch(`${supabaseUrl}/rest/v1/exchange_rate?id=eq.1`, {
-        method: 'PATCH',
+      /* INSERT nuevo registro — historial append-only */
+      const res = await fetch(`${supabaseUrl}/rest/v1/exchange_rate`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           apikey: serviceKey,
           Authorization: `Bearer ${serviceKey}`,
           Prefer: 'return=minimal'
         },
-        body: JSON.stringify({ tasa: rate, updated_at: new Date().toISOString() })
+        body: JSON.stringify({
+          tasa_paralela: rateParalela,
+          tasa_bcv: rateBcv,
+          created_at: new Date().toISOString()
+        })
       });
 
       if (!res.ok) {
         const errText = await res.text();
         console.error('Supabase error:', errText);
-        return { statusCode: 500, headers, body: JSON.stringify({ error: 'Database update failed' }) };
+        return { statusCode: 500, headers, body: JSON.stringify({ error: 'Database insert failed' }) };
       }
 
       return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
