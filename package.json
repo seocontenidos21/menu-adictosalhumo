@@ -1,0 +1,5 @@
+{
+  "name": "menu-adictos-al-humo",
+  "scripts": { "start": "node server.js" },
+  "dependencies": { "express": "^4" }
+}
