@@ -1,4 +1,4 @@
-const API = '/.netlify/functions/update-rate';
+const API = '/api/update-rate';
 let adminPass = null;
 
 const loginSection = document.getElementById('admin-login');
