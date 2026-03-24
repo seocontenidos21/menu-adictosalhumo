@@ -107,26 +107,56 @@ body::before {
   gap: 5px;
 }
 
-.header-currency-btn {
+.currency-switch {
+  position: relative;
   display: flex;
-  align-items: center;
-  background: var(--red);
-  border: none;
-  border-radius: 8px;
-  padding: 7px 14px;
+  align-items: stretch;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 100px;
+  padding: 3px;
   cursor: pointer;
-  transition: opacity 0.15s, transform 0.15s;
-  box-shadow: 0 2px 8px rgba(204,17,17,0.4);
+  overflow: hidden;
+  transition: border-color 0.2s;
 }
 
-.header-currency-btn:active { transform: scale(0.95); opacity: 0.85; }
+.currency-switch:active { opacity: 0.85; }
 
-.header-currency-btn .cpill-text {
+.csw-opt {
+  position: relative;
+  z-index: 1;
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   letter-spacing: 0.1em;
-  color: var(--white);
+  color: var(--muted);
+  padding: 4px 9px;
   line-height: 1;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  transition: color 0.25s;
+  user-select: none;
+}
+
+.currency-switch:not(.is-bs) .csw-usd,
+.currency-switch.is-bs .csw-bs {
+  color: var(--white);
+}
+
+.csw-slider {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  width: 50%;
+  background: var(--red);
+  border-radius: 100px;
+  left: 0;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(204,17,17,0.45);
+}
+
+.currency-switch.is-bs .csw-slider {
+  transform: translateX(100%);
 }
 
 .header-descuento-tag {
@@ -870,26 +900,6 @@ body::before {
   flex-shrink: 0;
 }
 
-.cart-currency-btn {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  background: rgba(204,17,17,0.18);
-  border: 1px solid rgba(204,17,17,0.4);
-  border-radius: 100px;
-  padding: 5px 12px;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-
-.cart-currency-btn:active { background: rgba(204,17,17,0.32); }
-
-.cart-currency-text {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 0.8rem;
-  letter-spacing: 0.1em;
-  color: var(--white);
-}
 
 .cart-back {
   display: flex;

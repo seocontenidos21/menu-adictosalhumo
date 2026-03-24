@@ -169,23 +169,20 @@ async function toggleCurrency() {
   const btn = document.getElementById('currency-toggle');
 
   if (isBs && !currentRate) {
-    btn.querySelector('.cpill-text').textContent = '...';
     btn.disabled = true;
     await fetchExchangeRate();
     btn.disabled = false;
 
     if (!currentRate) {
-      btn.querySelector('.cpill-text').textContent = 'Bs. VES';
       alert('No se pudo obtener la tasa de cambio. Intenta más tarde.');
       return;
     }
   }
 
   isBs = !isBs;
-  const label = isBs ? 'Bs. VES' : '$ USD';
-  btn.querySelector('.cpill-text').textContent = label;
+  btn.classList.toggle('is-bs', isBs);
   const cartBtn = document.getElementById('cart-currency-btn');
-  if (cartBtn) cartBtn.querySelector('.cpill-text').textContent = label;
+  if (cartBtn) cartBtn.classList.toggle('is-bs', isBs);
 
   const visibility = isBs ? 'hidden' : 'visible';
   const descTag = document.getElementById('descuentos-tag');

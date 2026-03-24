@@ -5,12 +5,12 @@ const MENU_DATA = [
     items: [
       {
         name: 'Alitas Crispy',
-        description: '8 Unidades. Alitas ahumadas crispy. Acompañadas de papa francesa y salsa a elección.',
+        description: '8 UNIDADES. Alitas ahumadas crispy. Papa francesa y salsa a elección.',
         price: 8
       },
       {
         name: 'Quesadillas Smoke',
-        description: 'Tortillas con queso fundido y crema agria.',
+        description: 'Tortillas con queso fundido, crema agria, brisket, pulled pork o mixta.',
         variants: [
           { name: 'Brisket', price: 10 },
           { name: 'Pulled Pork', price: 10 },
@@ -19,7 +19,7 @@ const MENU_DATA = [
       },
       {
         name: 'Papas Smoke',
-        description: 'Papas francesas con queso fundido, cebollín y salsa a elección.',
+        description: 'Papas francesas con queso fundido, cebollin, brisket, pulled pork o mixta, salsa a elección.',
         variants: [
           { name: 'Brisket', price: 10 },
           { name: 'Pulled Pork', price: 10 },
@@ -28,7 +28,7 @@ const MENU_DATA = [
       },
       {
         name: 'Canastas Smoke',
-        description: 'Cestas de plátano verde frito, con brisket, pulled pork y longaniza, coronadas con pico de gallo y guasacaca.',
+        description: 'Cestas de platano verde frito, con brisket, pulled pork y longaniza, coronadas con pico de gallo y guasacaca.',
         price: 10
       },
       {
@@ -47,7 +47,7 @@ const MENU_DATA = [
     items: [
       {
         name: 'Costillar de Cerdo St Luis',
-        description: 'Deliciosas costillas de cerdo ahumadas por 6 horas. Sabor Original o en Salsa bbq. Coleslaw, papa francesa o papa criolla y salsa a elección.',
+        description: 'Deliciosas costillas de cerdo ahumadas por 6 horas. Sabor Original o en Salsa bbq. Pídela en nuestras 2 presentaciones: Coleslaw, papa francesa o papa criolla y salsa a elección.',
         variants: [
           { name: 'Rack Entero', price: 40 },
           { name: 'Medio Rack', price: 22 }
@@ -65,7 +65,7 @@ const MENU_DATA = [
       },
       {
         name: 'Pork Belly',
-        description: 'Crujiente panceta de cerdo con piel ahumada suavemente por 6 horas, acevichado con limón, papas criollas o francesa.',
+        description: 'Crujiente panceta de cerdo con piel ahumada suavemente por 6 horas, acevichado limón papas criollas o francesa.',
         price: 16
       },
       {
@@ -81,7 +81,7 @@ const MENU_DATA = [
     items: [
       {
         name: 'Familiar',
-        description: '(4 personas) Brisket N, Pulled pork, alitas crispy, cerdo ahumado, pork belly, longanizas, pan, coleslaw, papas rusticas o francesas y salsas a elección.',
+        description: '(4 personas) Brisket N, Pulled pork, alitas crispy, cerdo ahumado, pork belly. longanizas, pan, coleslaw, papas rusticas o francesas y salsas a elección.',
         price: 60
       },
       {
@@ -97,7 +97,7 @@ const MENU_DATA = [
     items: [
       {
         name: 'Top Smoke',
-        description: '150 Gr. Lonja de brisket, 150 Gr. de pulled pork, queso cheddar, tocineta, pepinillos, tomate, lechuga, papas francesa, salsa de la casa.',
+        description: '150 Gr. Lonja de brisket, 150Gr. de pulled pork, queso cheddar, tocineta, pepinillos, tomate, lechuga, papas francesa, salsa de la casa.',
         price: 15
       },
       {
@@ -107,7 +107,7 @@ const MENU_DATA = [
       },
       {
         name: 'Blu Smoke',
-        description: 'Doble Croqueta de res ahumada, queso cheddar, cebolla caramelizada, tomate, lechuga, tocineta, papas francesa, salsa de la casa.',
+        description: 'Doble croqueta de res ahumada, Queso cheddar Cebolla, tomate, lechuga, Pepinillos, tocineta, papas francesas y salsa de la casa.',
         price: 10
       },
       {
@@ -117,7 +117,7 @@ const MENU_DATA = [
       },
       {
         name: 'Pit Smoke',
-        description: '80 Gr. pulled pork, 80 Gr. pulled beef, coleslaw, queso cheddar, pepinillo, papas francesa, salsa de la casa.',
+        description: '80 Gr. pulled pork, 80 Gr pulled beef, coleslaw, queso cheddar, pepinillo papas francesa, salsa de la casa.',
         price: 8
       },
       {
@@ -127,7 +127,7 @@ const MENU_DATA = [
       },
       {
         name: 'Pulled Burger',
-        description: '150 Gr. Pulled Pork de la casa ahumado, queso cheddar, coleslaw, papas francesa, salsa de la casa.',
+        description: '150 Gr. Pulled Pork de la casa ahumado, queso cheddar, coleslaw papas francesa, salsa de la casa.',
         price: 8
       }
     ]
@@ -138,12 +138,12 @@ const MENU_DATA = [
     items: [
       {
         name: 'Pastrami',
-        description: 'Pan ciabatta, corte de Res curado por más de 72 horas y luego ahumado por 14 horas. 180 Gr. Lonjas de pastrami, queso gouda, pepinillos, salsa de la casa.',
+        description: 'Pan ciabatta, corte de Res curado por mas de 72 horas y luego ahumado por 14 horas 180. Gr. Lonjas de pastrami, queso gouda, pepinillos, salsa de la casa.',
         price: 12
       },
       {
         name: 'Brisket',
-        description: 'Pan ciabatta, 180 Gr. de brisket ahumado, queso gouda, pepinillos, salsa de la casa.',
+        description: 'Pan ciabatta, 180. Gr. de brisket ahumado, queso gouda, pepinillos, salsa de la casa.',
         price: 12
       },
       {
@@ -179,7 +179,7 @@ const MENU_DATA = [
       },
       {
         name: 'Jr Smoke Burguer',
-        description: 'Croqueta de res, angus Certified ahumada, queso, salsa de la casa, acompañado de papas a la francesa.',
+        description: 'Croqueta de res, angus Certified ahumada, queso, salsa de la casa, acompañado de papås a la francesa.',
         price: 6
       }
     ]
@@ -200,33 +200,34 @@ const MENU_DATA = [
     id: 'salsas',
     name: 'Salsas',
     layout: 'badges',
-    subtitle: 'Elige la tuya al recibir tu pedido',
+    subtitle: 'a eleccion',
     items: [
       { name: 'BBQ Original' },
       { name: 'BBQ Piña Manzana' },
       { name: 'Guasacaca' },
       { name: 'Chimichurri' },
-      { name: 'Picante' }
+      { name: 'Picante' },
+      { name: 'Tartara', price: 10000 } 
     ]
   },
   {
     id: 'bebidas',
     name: 'Para Beber',
     items: [
-      { name: 'Granizado', description: 'Limón · Parchita', price: 2 },
+      { name: 'Granizado', description: 'Limón o Parchita', price: 2 },
       { name: 'Refresco de Lata', price: 2 },
       { name: 'Soda', price: 2 },
-      { name: 'Nestea', description: 'Limón · Durazno', price: 2 },
-      { name: 'Caroreña Verano en Lata', price: 2 },
+      { name: 'Nestea', description: 'Limón o Durazno', price: 2 },
+      { name: 'Caroreña Verano', price: 2 },
       { name: 'Agua 600ml', price: 1.5 },
       {
         name: 'Cerveza',
         variants: [
           { name: 'Solera Verde', price: 1.5 },
-          { name: 'Zulia', price: 1 },
           { name: 'Polar Negra', price: 1 },
           { name: 'Polar Light', price: 1 },
-          { name: 'Solera Azul', price: 1 }
+          { name: 'Solera Azul', price: 1 },
+          { name: 'Zulia', price: 1 }
         ]
       }
     ]

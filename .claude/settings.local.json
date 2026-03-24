@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__chrome-devtools__new_page",
+      "mcp__chrome-devtools__take_screenshot",
+      "mcp__chrome-devtools__wait_for",
+      "mcp__chrome-devtools__navigate_page",
+      "mcp__chrome-devtools__evaluate_script",
+      "mcp__chrome-devtools__click",
+      "mcp__chrome-devtools__resize_page",
+      "mcp__chrome-devtools__take_snapshot",
+      "mcp__chrome-devtools__list_pages",
+      "mcp__chrome-devtools__press_key",
+      "Bash(ffprobe -v quiet -print_format json -show_streams \"C:/Users/jhosmar/Documents/workspace/menu-adictos-humo/img/CARBONES.mp4\")",
+      "Bash(ffmpeg -i CARBONES.mp4 -vf \"scale=720:1280\" -c:v libx264 -crf 28 -preset slow -an -movflags +faststart -y CARBONES_web.mp4)"
+    ]
+  }
+}
