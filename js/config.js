@@ -1,2 +1,3 @@
 const SUPABASE_URL = 'https://sbbmromwxqlbwxzdvqcp.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNiYm1yb213eHFsYnd4emR2cWNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MzE5NzMsImV4cCI6MjA4OTUwNzk3M30.hup_tqoo0GBXAqhb_rDdTOxdVClL-Atwj32TrhxAVeI';
+const ADMIN_HASH = '42cdceba6fb36092deabecd887b292bfa90023ca3ad6b69f2f102d182cd32c1e';
