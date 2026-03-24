@@ -4,14 +4,9 @@ const loginMsg = document.getElementById('login-msg');
 const updateMsg = document.getElementById('update-msg');
 const currentRateEl = document.getElementById('current-rate');
 
-/* ─── SHA-256 hash (Web Crypto API) ────────────────────── */
-async function sha256(text) {
-  const data = new TextEncoder().encode(text);
-  const buf = await crypto.subtle.digest('SHA-256', data);
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
-}
+let adminPass = null;
 
-/* ─── Fetch current rates ──────────────────────────────── */
+/* ─── Cargar tasas actuales ─────────────────────────────── */
 async function loadCurrentRate() {
   try {
     const res = await fetch(
@@ -36,7 +31,7 @@ async function loadCurrentRate() {
   }
 }
 
-/* ─── Login (client-side hash check) ──────────────────── */
+/* ─── Login ─────────────────────────────────────────────── */
 document.getElementById('login-form').addEventListener('submit', async e => {
   e.preventDefault();
   const password = document.getElementById('password-input').value.trim();
@@ -46,36 +41,46 @@ document.getElementById('login-form').addEventListener('submit', async e => {
   btn.disabled = true;
   btn.textContent = 'VERIFICANDO...';
   loginMsg.textContent = '';
-  loginMsg.className = 'admin-msg';
 
-  const hash = await sha256(password);
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password })
+    });
+    const data = await res.json();
 
-  if (hash === ADMIN_HASH) {
-    loginSection.classList.add('hidden');
-    panelSection.classList.add('visible');
-    loadCurrentRate();
-  } else {
-    loginMsg.textContent = 'Contraseña incorrecta.';
+    if (data.ok) {
+      adminPass = password;
+      loginSection.classList.add('hidden');
+      panelSection.classList.add('visible');
+      loadCurrentRate();
+    } else {
+      loginMsg.textContent = 'Contraseña incorrecta.';
+      loginMsg.className = 'admin-msg err';
+    }
+  } catch {
+    loginMsg.textContent = 'Error de conexión.';
     loginMsg.className = 'admin-msg err';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'ACCEDER';
   }
-
-  btn.disabled = false;
-  btn.textContent = 'ACCEDER';
 });
 
-/* ─── Update rates (direct Supabase INSERT) ──────────── */
+/* ─── Guardar tasas ─────────────────────────────────────── */
 document.getElementById('rate-form').addEventListener('submit', async e => {
   e.preventDefault();
   const tasa_paralela = parseFloat(document.getElementById('rate-paralela-input').value);
   const tasa_bcv = parseFloat(document.getElementById('rate-bcv-input').value);
 
-  if (!tasa_paralela || isNaN(tasa_paralela) || tasa_paralela <= 0) {
-    updateMsg.textContent = 'Ingresa una tasa paralela válida mayor a 0.';
+  if (!tasa_paralela || tasa_paralela <= 0) {
+    updateMsg.textContent = 'Tasa paralela inválida.';
     updateMsg.className = 'admin-msg err';
     return;
   }
-  if (!tasa_bcv || isNaN(tasa_bcv) || tasa_bcv <= 0) {
-    updateMsg.textContent = 'Ingresa una tasa BCV válida mayor a 0.';
+  if (!tasa_bcv || tasa_bcv <= 0) {
+    updateMsg.textContent = 'Tasa BCV inválida.';
     updateMsg.className = 'admin-msg err';
     return;
   }
@@ -84,37 +89,27 @@ document.getElementById('rate-form').addEventListener('submit', async e => {
   btn.disabled = true;
   btn.textContent = 'GUARDANDO...';
   updateMsg.textContent = '';
-  updateMsg.className = 'admin-msg';
 
   try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/exchange_rate`, {
+    const res = await fetch('/api/tasas', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        apikey: SUPABASE_ANON_KEY,
-        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-        Prefer: 'return=minimal'
-      },
-      body: JSON.stringify({
-        tasa_paralela,
-        tasa_bcv,
-        created_at: new Date().toISOString()
-      })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: adminPass, tasa_paralela, tasa_bcv })
     });
+    const data = await res.json();
 
-    if (!res.ok) {
-      throw new Error(await res.text());
+    if (data.ok) {
+      updateMsg.textContent = 'Tasas guardadas.';
+      updateMsg.className = 'admin-msg ok';
+      document.getElementById('rate-paralela-input').value = '';
+      document.getElementById('rate-bcv-input').value = '';
+      loadCurrentRate();
+    } else {
+      updateMsg.textContent = data.error || 'Error al guardar.';
+      updateMsg.className = 'admin-msg err';
     }
-
-    updateMsg.textContent =
-      `Tasas guardadas — Paralela: Bs. ${tasa_paralela.toLocaleString('es-VE')} / BCV: Bs. ${tasa_bcv.toLocaleString('es-VE')}`;
-    updateMsg.className = 'admin-msg ok';
-    document.getElementById('rate-paralela-input').value = '';
-    document.getElementById('rate-bcv-input').value = '';
-    loadCurrentRate();
-  } catch (err) {
-    console.error(err);
-    updateMsg.textContent = 'Error al guardar. Intenta nuevamente.';
+  } catch {
+    updateMsg.textContent = 'Error de conexión.';
     updateMsg.className = 'admin-msg err';
   } finally {
     btn.disabled = false;
