@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 app.use((req, res, next) => {
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('X-Content-Type-Options', 'nosniff');
-  if (req.path === '/admin.html') {
+  if (req.path === '/admin' || req.path === '/admin.html') {
     res.setHeader('X-Robots-Tag', 'noindex, nofollow');
     res.setHeader('Cache-Control', 'no-store');
   }
@@ -88,11 +88,15 @@ app.use(express.static(path.join(__dirname), {
 
 /* ─── HTML routes ───────────────────────────────────────── */
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'desarrollo.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));      // Próximamente
+});
+
+app.get('/desarrollo', (req, res) => {
+  res.sendFile(path.join(__dirname, 'desarrollo.html')); // Menú
 });
 
 app.get('/admin', (req, res) => {
-  res.sendFile(path.join(__dirname, 'admin.html'));
+  res.sendFile(path.join(__dirname, 'admin.html'));      // Panel admin
 });
 
 /* ─── Start ─────────────────────────────────────────────── */
