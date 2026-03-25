@@ -159,12 +159,8 @@ const MENU_DATA = [
     items: [
       {
         name: 'Tacos Ahumados',
-        description: '3 Presentaciones únicas con nuestro sabor ahumado, queso amarillo, cilantro, cebolla, guasacaca, crema agria y limón.',
-        variants: [
-          { name: 'Brisket', price: 12 },
-          { name: 'Pulled Pork', price: 12 },
-          { name: 'Longaniza', price: 12 }
-        ]
+        description: 'Trío de tacos: Brisket, Pulled Pork y Longaniza. Acompañados de queso amarillo, cilantro, cebolla, guasacaca, crema agria y limón.',
+        price: 12
       }
     ]
   },
