@@ -4,38 +4,43 @@ Contexto y reglas para Claude Code en este proyecto.
 
 ## Proyecto
 
-Menú digital web para **Adictos al Humo Smokehouse**. SPA estática (HTML/CSS/JS vanilla) optimizada para móvil, accesible por QR desde las mesas. Deploy en Netlify (gratis).
+Menú digital web para **Adictos al Humo Smokehouse**. SPA estática (HTML/CSS/JS vanilla) optimizada para móvil, accesible por QR desde las mesas. Deploy en cualquier hosting estático (Netlify, GitHub Pages, etc.).
 
 ## Stack
 
-- **Frontend:** HTML5 / CSS3 / JavaScript vanilla (sin frameworks)
-- **Base de datos:** Supabase (tabla `exchange_rate` para tasa USD/Bs.)
-- **Serverless:** Netlify Functions (Node 18) — solo para el panel admin
+- **Frontend:** HTML5 / CSS3 / JavaScript vanilla (sin frameworks, sin backend)
+- **Base de datos:** Supabase (tablas `exchange_rate` y `admin_settings`)
+- **Auth admin:** Funciones RPC en PostgreSQL (`verify_admin`, `update_exchange_rate`) con `SECURITY DEFINER`
 - **Tipografía:** Bebas Neue (Google Fonts) + Inter
-- **Deploy:** Netlify (sitio estático)
+- **Deploy:** Hosting estático (sin servidor)
 
 ## Estructura de archivos
 
 ```
 index.html                  # Menú público (QR)
 admin.html                  # Panel admin protegido con contraseña
+desarrollo.html             # Menú en desarrollo
 css/style.css               # Estilos globales
 js/config.js                # Credenciales Supabase (anon key pública)
 js/menu-data.js             # Datos del menú (productos y precios)
 js/app.js                   # Render del menú + toggle USD/Bs
-js/admin.js                 # Lógica del panel admin
-netlify/functions/
-  update-rate.js            # Serverless: verifica password y escribe en Supabase
-netlify.toml                # Config Netlify
+js/admin.js                 # Lógica del panel admin (llama a Supabase RPC)
+js/cart.js                  # Carrito (localStorage)
 ```
 
-## Variables de entorno (Netlify)
+## Supabase
 
-| Variable | Descripción |
+| Tabla | Propósito |
 |---|---|
-| `ADMIN_PASSWORD` | Contraseña del panel `/admin.html` |
-| `SUPABASE_URL` | URL del proyecto Supabase |
-| `SUPABASE_SERVICE_ROLE_KEY` | Service role key para escritura desde la función serverless |
+| `exchange_rate` | Tasas USD/Bs (tasa_paralela, tasa_bcv, created_at) |
+| `admin_settings` | Contraseña admin (RLS bloquea lectura directa) |
+
+| Función RPC | Propósito |
+|---|---|
+| `verify_admin(p_password)` | Verifica contraseña, retorna `{ok: true/false}` |
+| `update_exchange_rate(p_password, p_tasa_paralela, p_tasa_bcv)` | Verifica + inserta tasa |
+
+Ambas funciones usan `SECURITY DEFINER` — se ejecutan con permisos elevados aunque se llamen con la anon key pública. La tabla `admin_settings` tiene RLS activo sin políticas, así que nadie puede leerla directamente.
 
 ## Identidad visual
 
@@ -47,9 +52,9 @@ netlify.toml                # Config Netlify
 
 ## Convenciones de código
 
-- Sin frameworks ni bundlers — todo debe funcionar abriendo el HTML directamente
+- Sin frameworks, bundlers ni backend — todo debe funcionar abriendo el HTML directamente
 - Los precios en `menu-data.js` siempre en USD (número); la conversión a Bs. se hace en runtime en `app.js`
-- La `SUPABASE_SERVICE_ROLE_KEY` **nunca** va en el cliente, solo en env vars de Netlify
+- No se necesitan variables de entorno ni service role key — toda la lógica sensible vive en funciones RPC de Supabase
 - La anon key de Supabase es pública — va en `js/config.js`
 
 ---

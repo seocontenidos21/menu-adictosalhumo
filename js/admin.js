@@ -4,6 +4,13 @@ const loginMsg = document.getElementById('login-msg');
 const updateMsg = document.getElementById('update-msg');
 const currentRateEl = document.getElementById('current-rate');
 
+const SUPABASE_RPC = `${SUPABASE_URL}/rest/v1/rpc`;
+const supaHeaders = {
+  'Content-Type': 'application/json',
+  apikey: SUPABASE_ANON_KEY,
+  Authorization: `Bearer ${SUPABASE_ANON_KEY}`
+};
+
 let adminPass = null;
 
 /* ─── Cargar tasas actuales ─────────────────────────────── */
@@ -11,7 +18,7 @@ async function loadCurrentRate() {
   try {
     const res = await fetch(
       `${SUPABASE_URL}/rest/v1/exchange_rate?select=tasa_paralela,tasa_bcv,created_at&order=created_at.desc&limit=1`,
-      { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
+      { headers: supaHeaders }
     );
     const data = await res.json();
     if (data && data.length > 0) {
@@ -43,14 +50,14 @@ document.getElementById('login-form').addEventListener('submit', async e => {
   loginMsg.textContent = '';
 
   try {
-    const res = await fetch('/api/login', {
+    const res = await fetch(`${SUPABASE_RPC}/verify_admin`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password })
+      headers: supaHeaders,
+      body: JSON.stringify({ p_password: password })
     });
     const data = await res.json();
 
-    if (data.ok) {
+    if (data && data.ok) {
       adminPass = password;
       loginSection.classList.add('hidden');
       panelSection.classList.add('visible');
@@ -91,21 +98,21 @@ document.getElementById('rate-form').addEventListener('submit', async e => {
   updateMsg.textContent = '';
 
   try {
-    const res = await fetch('/api/tasas', {
+    const res = await fetch(`${SUPABASE_RPC}/update_exchange_rate`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: adminPass, tasa_paralela, tasa_bcv })
+      headers: supaHeaders,
+      body: JSON.stringify({ p_password: adminPass, p_tasa_paralela: tasa_paralela, p_tasa_bcv: tasa_bcv })
     });
     const data = await res.json();
 
-    if (data.ok) {
+    if (data && data.ok) {
       updateMsg.textContent = 'Tasas guardadas.';
       updateMsg.className = 'admin-msg ok';
       document.getElementById('rate-paralela-input').value = '';
       document.getElementById('rate-bcv-input').value = '';
       loadCurrentRate();
     } else {
-      updateMsg.textContent = data.error || 'Error al guardar.';
+      updateMsg.textContent = (data && data.error) || 'Error al guardar.';
       updateMsg.className = 'admin-msg err';
     }
   } catch {
