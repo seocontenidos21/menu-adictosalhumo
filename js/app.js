@@ -124,6 +124,25 @@ function renderBadgeItems(section) {
     </div>`;
 }
 
+const SECTION_ICONS = {
+  entradas:      'entradas - adictos al bbq.png',
+  humo:          'humo.png',
+  bbq:           'entradas - adictos al bbq.png',
+  hamburguesas:  'hamburguesas.png',
+  sandwich:      'sandwich.png',
+  tacos:         'tacos.png',
+  infantil:      'infantil.png',
+  acomp:         'acompañamientos.png',
+  salsas:        'salsas a eleccion.png',
+  bebidas:       'para beber.png'
+};
+
+function sectionIcon(id) {
+  const file = SECTION_ICONS[id];
+  if (!file) return '';
+  return `<img class="section-icon" src="img/iconos/${encodeURI(file)}" alt="" />`;
+}
+
 function renderMenu() {
   const container = document.getElementById('menu-content');
   container.innerHTML = MENU_DATA.map(section => {
@@ -140,7 +159,7 @@ function renderMenu() {
     return `
       <section class="menu-section" id="section-${section.id}" data-section-id="${section.id}">
         <div class="section-header">
-          <h2 class="section-title">${section.name.toUpperCase()}</h2>
+          <h2 class="section-title">${sectionIcon(section.id)}<span>${section.name.toUpperCase()}</span></h2>
           <div class="section-divider"></div>
         </div>
         ${body}
