@@ -13,6 +13,9 @@
   object-fit: cover;
   object-position: center;
 }
+.video-bg video::-webkit-media-controls {
+  display: none !important;
+}
 .video-bg::after {
   content: '';
   position: absolute;

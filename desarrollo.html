@@ -7,7 +7,7 @@
   <title>Adictos al Humo — Menú</title>
   <meta name="description" content="Menú digital de Adictos al Humo Smokehouse. Ahumados texanos, BBQ y más." />
   <link rel="icon" href="img/Fuego Red.webp" type="image/webp" />
-  <link rel="stylesheet" href="css/style.css?v=4" />
+  <link rel="stylesheet" href="css/style.css?v=5" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -15,11 +15,27 @@
 <body>
 
   <div class="video-bg" aria-hidden="true">
-    <video autoplay muted loop playsinline preload="auto">
+    <video id="bg-video" autoplay muted loop playsinline preload="auto" poster="img/carbones-poster.jpg">
       <source src="img/CARBONES_web.mp4" type="video/mp4" />
       <source src="img/CARBONES_web.webm" type="video/webm" />
     </video>
   </div>
+  <script>
+    (function(){
+      var v=document.getElementById('bg-video');
+      if(!v)return;
+      v.muted=true;
+      var p=v.play();
+      if(p&&p.catch)p.catch(function(){
+        ['touchstart','scroll','click'].forEach(function(evt){
+          document.addEventListener(evt,function h(){
+            v.play();
+            document.removeEventListener(evt,h);
+          },{once:true,passive:true});
+        });
+      });
+    })();
+  </script>
 
   <!-- ══════════════════════════════════════════════════════
        MAIN MENU VIEW
