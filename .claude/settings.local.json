@@ -12,7 +12,16 @@
       "mcp__chrome-devtools__list_pages",
       "mcp__chrome-devtools__press_key",
       "Bash(ffprobe -v quiet -print_format json -show_streams \"C:/Users/jhosmar/Documents/workspace/menu-adictos-humo/img/CARBONES.mp4\")",
-      "Bash(ffmpeg -i CARBONES.mp4 -vf \"scale=720:1280\" -c:v libx264 -crf 28 -preset slow -an -movflags +faststart -y CARBONES_web.mp4)"
+      "Bash(ffmpeg -i CARBONES.mp4 -vf \"scale=720:1280\" -c:v libx264 -crf 28 -preset slow -an -movflags +faststart -y CARBONES_web.mp4)",
+      "mcp__supabase__list_projects",
+      "mcp__supabase__list_tables",
+      "mcp__supabase__execute_sql",
+      "mcp__supabase__apply_migration",
+      "Bash(node server.js)",
+      "Bash(curl -s https://adictosalhumo.com/js/admin.js)",
+      "WebFetch(domain:adictosalhumo.com)",
+      "Bash(curl -sI \"https://adictosalhumo.com/css/style.css\")",
+      "Bash(ffmpeg -i img/CARBONES_web.mp4 -vframes 1 -q:v 2 img/carbones-poster.jpg -y)"
     ]
   }
 }

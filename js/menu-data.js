@@ -49,7 +49,7 @@ const MENU_DATA = [
     items: [
       {
         name: 'Costillar de Cerdo St Luis',
-        description: 'Deliciosas costillas de cerdo ahumadas por 6 horas. Sabor Original o en Salsa bbq. Pídela en nuestras 2 presentaciones: Coleslaw, papa francesa o papa criolla y salsa a elección.',
+        description: 'Deliciosas costillas de cerdo ahumadas por 6 horas. Sabor Original o en Salsa bbq. Pídela en nuestras 2 presentaciones. Coleslaw, papa francesa o papa criolla y salsa a elección.',
         variants: [
           { name: 'Rack Entero', price: 40 },
           { name: 'Medio Rack', price: 22 }
@@ -161,7 +161,7 @@ const MENU_DATA = [
     items: [
       {
         name: 'Tacos Ahumados',
-        description: 'Trío de tacos: Brisket, Pulled Pork y Longaniza. Acompañados de queso amarillo, cilantro, cebolla, guasacaca, crema agria y limón.',
+        description: '3 Presentaciones únicas con nuestro sabor ahumado, queso amarillo, cilantro, cebolla, guasacaca, crema agria y limón',
         price: 12
       }
     ]
