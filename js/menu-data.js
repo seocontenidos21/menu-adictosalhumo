@@ -10,7 +10,7 @@ const MENU_DATA = [
       },
       {
         name: 'Quesadillas Smoke',
-        description: 'Tortillas con queso fundido y crema agria.',
+        description: 'Tortillas con queso fundido, crema agria, brisket, pulled pork o mixta.',
         hideVariants: true,
         variants: [
           { name: 'Brisket', price: 10 },
@@ -20,7 +20,7 @@ const MENU_DATA = [
       },
       {
         name: 'Papas Smoke',
-        description: 'Papas francesas con queso fundido, cebollin y salsa a elección.',
+        description: 'Papas francesas con queso fundido, cebollin, brisket, pulled pork o mixta, salsa a elección.',
         hideVariants: true,
         variants: [
           { name: 'Brisket', price: 10 },
@@ -100,7 +100,7 @@ const MENU_DATA = [
       {
         name: 'Top Smoke',
         description: '150 Gr. Lonja de brisket, 150Gr. de pulled pork, queso cheddar, tocineta, pepinillos, tomate, lechuga, papas francesa, salsa de la casa.',
-        price: 15
+        price: 14
       },
       {
         name: 'Brisket Burger',
@@ -113,13 +113,13 @@ const MENU_DATA = [
         price: 10
       },
       {
-        name: 'Smoke Burger',
-        description: '180 Gr. Croqueta de res ahumada, queso cheddar, tocineta, pepinillos, tomate, lechuga, papas francesa, salsa de la casa.',
-        price: 8
-      },
-      {
         name: 'Pit Smoke',
         description: '80 Gr. pulled pork, 80 Gr pulled beef, coleslaw, queso cheddar, pepinillo papas francesa, salsa de la casa.',
+        price: 10
+      },
+      {
+        name: 'Smoke Burger',
+        description: '180 Gr. Croqueta de res ahumada, queso cheddar, tocineta, pepinillos, tomate, lechuga, papas francesa, salsa de la casa.',
         price: 8
       },
       {
@@ -177,7 +177,7 @@ const MENU_DATA = [
       },
       {
         name: 'Jr Smoke Burguer',
-        description: 'Croqueta de res, angus Certified ahumada, queso, salsa de la casa, acompañado de papås a la francesa.',
+        description: 'Croqueta de res ahumada, queso, salsa de la casa, acompañado de papas a la francesa.',
         price: 6
       }
     ]
