@@ -82,12 +82,13 @@ function dishImg(cls = '') {
 /* ─── Menu render ───────────────────────────────────────── */
 
 function renderSingleItem(item) {
-  const clickable = (item.price !== undefined) ? `data-item-name="${item.name}"` : '';
+  const price = item.price != null ? item.price : (item.variants ? item.variants[0].price : undefined);
+  const clickable = (price !== undefined) ? `data-item-name="${item.name}"` : '';
   return `
     <div class="item-card" ${clickable}>
       <div class="item-header">
         <div class="item-name">${item.name}</div>
-        <div class="item-price">${priceHTML(item.price)}</div>
+        <div class="item-price">${priceHTML(price)}</div>
       </div>
       ${item.description ? `<div class="item-desc">${item.description}</div>` : ''}
     </div>`;
@@ -153,7 +154,7 @@ function renderMenu() {
       body = renderGridItems(section.items);
     } else {
       body = section.items.map(item =>
-        item.variants ? renderVariantItem(item) : renderSingleItem(item)
+        (item.variants && !item.hideVariants) ? renderVariantItem(item) : renderSingleItem(item)
       ).join('');
     }
     return `
