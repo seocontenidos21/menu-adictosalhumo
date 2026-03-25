@@ -140,17 +140,17 @@ const MENU_DATA = [
     items: [
       {
         name: 'Pastrami',
-        description: 'Pan ciabatta, corte de Res curado por mas de 72 horas y luego ahumado por 14 horas 180. Gr. Lonjas de pastrami, queso gouda, pepinillos, salsa de la casa.',
+        description: 'Pan ciabatta, corte de Res curado por mas de 72 horas y luego ahumado por 14 horas 180. Gr. Lonjas de pastrami, queso cheddar americano, pepinillos, salsa de la casa.',
         price: 12
       },
       {
         name: 'Brisket',
-        description: 'Pan ciabatta, 180. Gr. de brisket ahumado, queso gouda, pepinillos, salsa de la casa.',
+        description: 'Pan ciabatta, 180. Gr. de brisket ahumado, queso cheddar americano, pepinillos, salsa de la casa.',
         price: 12
       },
       {
         name: 'Pulled Pork',
-        description: 'Pan ciabatta, 200 Gr. de pulled pork ahumado, queso gouda, pepinillos, salsa de la casa.',
+        description: 'Pan ciabatta, 200 Gr. de pulled pork ahumado, queso cheddar americano, pepinillos, salsa de la casa.',
         price: 12
       }
     ]
