@@ -159,7 +159,7 @@ function renderMenu() {
     return `
       <section class="menu-section" id="section-${section.id}" data-section-id="${section.id}">
         <div class="section-header">
-          <h2 class="section-title">${sectionIcon(section.id)}<span>${section.name.toUpperCase()}</span></h2>
+          <h2 class="section-title"><span>${section.name.toUpperCase()}</span>${sectionIcon(section.id)}</h2>
           <div class="section-divider"></div>
         </div>
         ${body}
