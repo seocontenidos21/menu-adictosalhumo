@@ -390,6 +390,16 @@ body::before {
   gap: 8px;
 }
 
+@media (max-width: 420px) {
+  .acomp-card .item-name {
+    font-size: 0.82rem;
+  }
+  .acomp-card .item-price {
+    font-size: 1.05rem;
+    white-space: nowrap;
+  }
+}
+
 .acomp-card {
   display: flex;
   justify-content: space-between;
