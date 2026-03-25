@@ -929,7 +929,7 @@ body::before {
   transform: translateX(0);
 }
 
-/* Desktop: side drawer */
+/* Desktop: push drawer */
 @media (min-width: 601px) {
   .cart-page {
     left: auto;
@@ -939,6 +939,22 @@ body::before {
   }
   .cart-page .site-header {
     display: none;
+  }
+
+  /* Push menu content left when cart opens */
+  .site-header,
+  .section-nav,
+  .menu-main,
+  .fab-cart,
+  .video-bg {
+    transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .cart-open .site-header,
+  .cart-open .section-nav,
+  .cart-open .menu-main,
+  .cart-open .fab-cart,
+  .cart-open .video-bg {
+    transform: translateX(-225px);
   }
 }
 

@@ -299,11 +299,13 @@ function openCartPage() {
   renderCartItems();
   renderComplementa();
   document.getElementById('cart-page').classList.add('open');
+  document.body.classList.add('cart-open');
   document.body.style.overflow = 'hidden';
 }
 
 function closeCartPage() {
   document.getElementById('cart-page').classList.remove('open');
+  document.body.classList.remove('cart-open');
   document.body.style.overflow = '';
 }
 
