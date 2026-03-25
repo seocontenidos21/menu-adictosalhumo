@@ -406,6 +406,12 @@ function initCardClicks() {
 /* ─── Init ──────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   Cart.load();
+  Cart.onChange(() => {
+    if (document.getElementById('cart-page').classList.contains('open')) {
+      renderCartItems();
+      renderComplementa();
+    }
+  });
   renderNav();
   renderMenu();
   fetchExchangeRate().finally(renderMenu);
