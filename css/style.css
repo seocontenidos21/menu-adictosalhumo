@@ -925,15 +925,21 @@ body::before {
   overflow: hidden;
 }
 
-.cart-page > * {
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-}
-
 .cart-page.open {
   transform: translateX(0);
+}
+
+/* Desktop: side drawer */
+@media (min-width: 601px) {
+  .cart-page {
+    left: auto;
+    width: 450px;
+    border-left: 1px solid var(--border-subtle);
+    box-shadow: -12px 0 40px rgba(0,0,0,0.6);
+  }
+  .cart-page .site-header {
+    display: none;
+  }
 }
 
 .cart-subheader {
