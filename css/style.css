@@ -168,6 +168,17 @@ body::before {
   opacity: 0.9;
 }
 
+/* Mobile: evitar que el selector de moneda se superponga al logo */
+@media (max-width: 420px) {
+  .header-inner {
+    justify-content: space-between;
+    padding: 0 12px;
+  }
+  .header-right-slot {
+    position: static;
+  }
+}
+
 /* ─── Section Nav ────────────────────────────────────────────────── */
 .section-nav {
   position: sticky;
