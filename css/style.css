@@ -47,6 +47,7 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: 20px;
 }
 
 body {
@@ -63,7 +64,7 @@ body::before {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background-image: linear-gradient(rgba(8,8,8,0.45), rgba(8,8,8,0.45)), url('../img/carboncarne.jpg');
+  background-image: linear-gradient(rgba(8,8,8,0.20), rgba(8,8,8,0.20)), url('../img/carboncarne.jpg');
   background-size: cover;
   background-position: center center;
 }
@@ -903,10 +904,7 @@ body::before {
   position: fixed;
   inset: 0;
   height: 100dvh;
-  background-color: var(--bg);
-  background-image: linear-gradient(rgba(8,8,8,0.45), rgba(8,8,8,0.45)), url('../img/carbon.jpg');
-  background-size: cover;
-  background-position: center center;
+  background: rgba(8,8,8,0.85);
   z-index: 400;
   transform: translateX(100%);
   transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
