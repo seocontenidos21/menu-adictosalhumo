@@ -391,6 +391,12 @@ body::before {
   gap: 8px;
 }
 
+@media (max-width: 600px) {
+  .acomp-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .acomp-card {
   display: flex;
   justify-content: space-between;
