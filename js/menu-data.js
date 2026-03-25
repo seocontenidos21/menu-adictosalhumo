@@ -10,12 +10,8 @@ const MENU_DATA = [
       },
       {
         name: 'Quesadillas Smoke',
-        description: 'Tortillas con queso fundido, crema agria, brisket, pulled pork o mixta.',
-        variants: [
-          { name: 'Brisket', price: 10 },
-          { name: 'Pulled Pork', price: 10 },
-          { name: 'Mixta', price: 10 }
-        ]
+        description: 'Trío de quesadillas: Brisket, Pulled Pork y Mixta. Tortillas con queso fundido y crema agria.',
+        price: 10
       },
       {
         name: 'Papas Smoke',
