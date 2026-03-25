@@ -251,6 +251,7 @@ body::before {
   padding: 0 0 70px;
   max-width: 600px;
   margin: 0 auto;
+  overflow-x: hidden;
 }
 
 /* ─── Section ────────────────────────────────────────────────────── */
@@ -390,22 +391,14 @@ body::before {
   gap: 8px;
 }
 
-@media (max-width: 420px) {
-  .acomp-card .item-name {
-    font-size: 0.82rem;
-  }
-  .acomp-card .item-price {
-    font-size: 1.05rem;
-    white-space: nowrap;
-  }
-}
-
 .acomp-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 6px;
   padding: 12px 14px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .acomp-card .item-name {
