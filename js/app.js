@@ -34,9 +34,11 @@ async function fetchExchangeRate() {
  * Siempre redondea hacia arriba a un múltiplo natural según el rango.
  */
 function smartRoundStrike(raw, actualPrice) {
-  const rounded = Math.round(raw * 2) / 2;
+  const rounded = raw <= 10 ? Math.round(raw * 2) / 2 : Math.round(raw);
   // Garantizar que siempre sea mayor al precio real mostrado
-  if (rounded <= actualPrice) return Math.ceil(actualPrice * 2) / 2 + 0.5;
+  if (rounded <= actualPrice) return raw <= 10
+    ? Math.ceil(actualPrice * 2) / 2 + 0.5
+    : Math.ceil(actualPrice) + 1;
   return rounded;
 }
 
