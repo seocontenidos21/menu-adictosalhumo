@@ -34,14 +34,9 @@ async function fetchExchangeRate() {
  * Siempre redondea hacia arriba a un múltiplo natural según el rango.
  */
 function smartRoundStrike(raw, actualPrice) {
-  let rounded;
-  if (raw < 4)       rounded = Math.ceil(raw * 2) / 2;    // múltiplos de $0.50
-  else if (raw < 15) rounded = Math.ceil(raw);             // enteros
-  else if (raw < 30) rounded = Math.ceil(raw / 2) * 2;    // múltiplos de $2
-  else               rounded = Math.round(raw);            // entero más cercano
-
+  const rounded = Math.round(raw);
   // Garantizar que siempre sea mayor al precio real mostrado
-  if (rounded <= actualPrice) rounded = Math.ceil(actualPrice) + (actualPrice < 10 ? 1 : 2);
+  if (rounded <= actualPrice) return Math.ceil(actualPrice) + 1;
   return rounded;
 }
 
