@@ -491,7 +491,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const commentSuffix = it.comment ? ` — "${it.comment}"` : '';
         return `\u2022 ${it.qty}x ${it.name}${variantSuffix}${commentSuffix}`;
       });
-      const total = Cart.usdTotal();
+      const usd = Cart.usdTotal();
+      const totalStr = isBs && currentRate
+        ? `Bs. ${(usd * currentRate).toFixed(2)}`
+        : `$${usd.toFixed(2)}`;
 
       const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
 
@@ -502,7 +505,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ``,
             ...lines,
             ``,
-            `\u{1F4B5} Total: *$${total.toFixed(2)}*`,
+            `\u{1F4B5} Total: *${totalStr}*`,
           ].join('\n')
         : [
             `*Pedido \u2014 Adictos al Humo Smokehouse*`,
@@ -510,7 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ``,
             ...lines,
             ``,
-            `Total: *$${total.toFixed(2)}*`,
+            `Total: *${totalStr}*`,
           ].join('\n');
 
       window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
