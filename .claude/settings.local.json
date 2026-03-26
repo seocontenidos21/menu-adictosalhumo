@@ -21,7 +21,10 @@
       "Bash(curl -s https://adictosalhumo.com/js/admin.js)",
       "WebFetch(domain:adictosalhumo.com)",
       "Bash(curl -sI \"https://adictosalhumo.com/css/style.css\")",
-      "Bash(ffmpeg -i img/CARBONES_web.mp4 -vframes 1 -q:v 2 img/carbones-poster.jpg -y)"
+      "Bash(ffmpeg -i img/CARBONES_web.mp4 -vframes 1 -q:v 2 img/carbones-poster.jpg -y)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   }
 }
